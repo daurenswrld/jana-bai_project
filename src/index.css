@@ -172,13 +172,31 @@ a {
 .logo-link {
   display: flex;
   align-items: center;
-  height: 30px;
+  height: 34px;
 }
 
-.logo-image {
+.logo-image,
+.janabai-svg-logo {
   height: 100%;
-  max-height: 30px;
+  max-height: 34px;
+  width: auto;
   object-fit: contain;
+  transition:
+    transform var(--transition-fast),
+    color 0.2s ease;
+  color: #111827;
+}
+
+[data-theme="dark"] .logo-image,
+[data-theme="dark"] .janabai-svg-logo,
+.dark .logo-image,
+.dark .janabai-svg-logo {
+  color: #ffffff !important;
+}
+
+.logo-image:hover,
+.janabai-svg-logo:hover {
+  transform: scale(1.03);
 }
 
 /* Catalog Button */
@@ -510,7 +528,9 @@ a {
   background-repeat: no-repeat;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
+  transition:
+    opacity 0.6s ease-in-out,
+    visibility 0.6s ease-in-out;
   z-index: 1;
 }
 
@@ -2504,6 +2524,12 @@ input[type="number"] {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  align-items: start;
+}
+
+.footer-brand-info .logo-image,
+.footer-brand-info .janabai-svg-logo {
+  color: #ffffff !important;
 }
 
 .footer-logo-text {
@@ -3659,8 +3685,12 @@ input[type="number"] {
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ==========================================================================
@@ -3692,7 +3722,11 @@ input[type="number"] {
 .janabai-hero-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 20%, rgba(234, 179, 8, 0.15), transparent 70%);
+  background: radial-gradient(
+    circle at 50% 20%,
+    rgba(234, 179, 8, 0.15),
+    transparent 70%
+  );
   pointer-events: none;
 }
 
@@ -3728,9 +3762,18 @@ input[type="number"] {
 }
 
 @keyframes pulse {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.2); opacity: 0.8; }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .janabai-title {
@@ -4347,7 +4390,11 @@ input[type="number"] {
   top: -50px;
   width: 250px;
   height: 250px;
-  background: radial-gradient(circle, rgba(234, 179, 8, 0.15) 0%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(234, 179, 8, 0.15) 0%,
+    transparent 70%
+  );
   pointer-events: none;
   border-radius: 50%;
 }
@@ -4431,7 +4478,11 @@ input[type="number"] {
 .case-img-placeholder {
   width: 100%;
   height: 180px;
-  background: linear-gradient(135deg, rgba(234, 179, 8, 0.1) 0%, rgba(15, 23, 42, 0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(234, 179, 8, 0.1) 0%,
+    rgba(15, 23, 42, 0.05) 100%
+  );
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4449,7 +4500,11 @@ input[type="number"] {
 }
 
 [data-theme="light"] .janabai-hero-overlay {
-  background: radial-gradient(circle at 50% 20%, rgba(234, 179, 8, 0.12), transparent 70%);
+  background: radial-gradient(
+    circle at 50% 20%,
+    rgba(234, 179, 8, 0.12),
+    transparent 70%
+  );
 }
 
 [data-theme="light"] .janabai-badge {
@@ -4616,5 +4671,3 @@ input[type="number"] {
     font-size: 19px !important;
   }
 }
-
-

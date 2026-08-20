@@ -1,4 +1,5 @@
 import React from "react";
+import { Logo } from "./Logo";
 import { X, Home, Truck, ShieldCheck, HelpCircle, MessageSquare, ArrowUpRight, Flame, Store } from "lucide-react";
 
 export default function MobileMenu({
@@ -24,7 +25,7 @@ export default function MobileMenu({
       >
         <div className="drawer-header">
           <h3 style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <img src="/logo.svg" alt="Logo" style={{ height: "30px" }} />
+            <Logo className="logo-image" style={{ height: "30px" }} />
           </h3>
           <button
             className="dialog-close"

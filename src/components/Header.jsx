@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Logo } from "./Logo";
 import {
   Menu,
   LayoutGrid,
@@ -60,11 +61,7 @@ export default function Header({
               setShowFavoritesOnly(false);
             }}
           >
-            <img
-              src="/logo.svg"
-              alt="TaoBey Buyers Logo"
-              className="logo-image"
-            />
+            <Logo className="logo-image" />
           </a>
         </div>
 

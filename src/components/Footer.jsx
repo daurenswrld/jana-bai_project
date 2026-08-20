@@ -1,4 +1,5 @@
 import React from "react";
+import { Logo } from "./Logo";
 import { LayoutGrid, Heart, ShoppingBasket, Package, User, Sun, Moon, Instagram } from "lucide-react";
 
 export default function Footer({
@@ -56,9 +57,9 @@ export default function Footer({
 
         <div className="footer-links-grid">
           <div className="footer-brand-info">
-            <h3 className="footer-logo-text">淘备买手 <span>TAOBEY</span></h3>
+            <Logo className="logo-image" style={{ height: "32px", marginBottom: "12px", display: "block" }} />
             <p className="footer-brand-desc">
-              {settings?.footerAboutText || "Платформа для оптовых и совместных закупок напрямую с крупнейших фабрик Китая. Цены производителей, профессиональный выкуп и надежное экспедирование."}
+              {settings?.footerAboutText || "Реалити-проект Jana Bai — публичный трекинг предпринимателей на маркетплейсах. Оптовые закупки напрямую с крупнейших фабрик Китая."}
             </p>
           </div>
 

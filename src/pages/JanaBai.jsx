@@ -63,6 +63,12 @@ const formatPhoneNumber = (input, prevVal = "") => {
   return formatted;
 };
 
+// Simple math captcha generator
+const newCaptcha = () => ({
+  a: Math.floor(Math.random() * 9) + 1,
+  b: Math.floor(Math.random() * 9) + 1,
+});
+
 export default function JanaBai({ triggerToast, setIsAuthModalOpen, theme }) {
   const [posts, setPosts] = useState([]);
   const [loadingPosts, setLoadingPosts] = useState(true);
@@ -79,6 +85,8 @@ export default function JanaBai({ triggerToast, setIsAuthModalOpen, theme }) {
   });
   const [submitting, setSubmitting] = useState(false);
   const [submittedSuccess, setSubmittedSuccess] = useState(false);
+  const [captcha, setCaptcha] = useState(newCaptcha);
+  const [captchaInput, setCaptchaInput] = useState("");
 
   // Load news posts & participants
   useEffect(() => {
@@ -105,6 +113,19 @@ export default function JanaBai({ triggerToast, setIsAuthModalOpen, theme }) {
     if (!formData.phone.trim()) {
       triggerToast("Укажите ваш номер телефона", "info");
       return;
+    }
+    if (parseInt(captchaInput, 10) !== captcha.a + captcha.b) {
+      triggerToast("Неверный ответ на проверочный вопрос", "error");
+      setCaptcha(newCaptcha());
+      setCaptchaInput("");
+      return;
+    }
+    if (typeof window !== "undefined" && window.ttq) {
+      try {
+        window.ttq.track("SubmitForm");
+      } catch (e) {
+        /* ignore pixel errors */
+      }
     }
     setSubmitting(true);
     try {
@@ -168,20 +189,83 @@ export default function JanaBai({ triggerToast, setIsAuthModalOpen, theme }) {
             Становитесь партнёром Taobey Buyers — и наши менеджеры сделают всю логистику и закуп за вас.
           </p>
 
-          <div className="janabai-hero-actions">
-            <a href="#janabai-form" className="btn-primary-gold">
-              <span>ПОДАТЬ ЗАЯВКУ НА УЧАСТИЕ</span>
-              <ArrowRight size={18} />
-            </a>
-            <a href="#janabai-news" className="btn-secondary-glass">
-              <Newspaper size={18} />
-              <span>Смотреть дневник проекта</span>
-            </a>
+          {/* Always-open lead form */}
+          <div className="hero-form-card" id="janabai-form">
+            {submittedSuccess ? (
+              <div className="success-state">
+                <div className="success-icon">
+                  <CheckCircle2 size={48} color="#22c55e" />
+                </div>
+                <h3>Заявка успешно отправлена!</h3>
+                <p>Наш менеджер свяжется с вами в ближайшее время.</p>
+              </div>
+            ) : (
+              <form className="janabai-form" onSubmit={handleFormSubmit}>
+                <h3>Оставьте заявку</h3>
+
+                <div className="input-group">
+                  <label>Ваше имя</label>
+                  <input
+                    type="text"
+                    placeholder="Имя"
+                    value={formData.name}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
+                    required
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label>Номер телефона (WhatsApp) *</label>
+                  <input
+                    type="tel"
+                    placeholder="+7 (777) 000-00-00"
+                    value={formData.phone}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        phone: formatPhoneNumber(e.target.value, formData.phone),
+                      })
+                    }
+                    required
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label>
+                    Проверка: сколько будет {captcha.a} + {captcha.b}?
+                  </label>
+                  <input
+                    type="number"
+                    inputMode="numeric"
+                    placeholder="Ответ"
+                    value={captchaInput}
+                    onChange={(e) => setCaptchaInput(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="btn-submit-gold"
+                  disabled={submitting}
+                >
+                  {submitting ? "Отправка..." : "ОТПРАВИТЬ"}
+                  <Send size={18} />
+                </button>
+
+                <p className="privacy-note">
+                  Нажимая кнопку, вы соглашаетесь на обработку персональных данных.
+                </p>
+              </form>
+            )}
           </div>
         </div>
       </section>
 
-      {/* --- WHY JANA BAI ADVANTAGES --- */}
+      {/* [TEMPORARILY HIDDEN — client request] Blocks below are commented out until further notice.
+      [HIDDEN] WHY JANA BAI ADVANTAGES
       <section className="janabai-features">
         <div className="janabai-container">
           <div className="section-header-center">
@@ -227,7 +311,7 @@ export default function JanaBai({ triggerToast, setIsAuthModalOpen, theme }) {
         </div>
       </section>
 
-      {/* --- FIRST 5 CASES SHOWCASE --- */}
+      [HIDDEN] FIRST 5 CASES SHOWCASE
       <section className="janabai-cases">
         <div className="janabai-container">
           <div className="section-header-center">
@@ -310,7 +394,7 @@ export default function JanaBai({ triggerToast, setIsAuthModalOpen, theme }) {
         </div>
       </section>
 
-      {/* --- APPLICATION FORM SECTION --- */}
+      [HIDDEN] OLD APPLICATION FORM SECTION
       <section className="janabai-form-section" id="janabai-form">
         <div className="janabai-container">
           <div className="form-card-wrapper">
@@ -447,7 +531,7 @@ export default function JanaBai({ triggerToast, setIsAuthModalOpen, theme }) {
         </div>
       </section>
 
-      {/* --- LIVE NEWS & PROGRESS FEED --- */}
+      [HIDDEN] LIVE NEWS & PROGRESS FEED
       <section className="janabai-news-section" id="janabai-news">
         <div className="janabai-container">
           <div className="section-header-center">
@@ -516,6 +600,7 @@ export default function JanaBai({ triggerToast, setIsAuthModalOpen, theme }) {
           )}
         </div>
       </section>
+      */}
     </div>
   );
 }
